@@ -1,4 +1,3 @@
-
 import os
 import sys
 from datetime import datetime
@@ -31,7 +30,11 @@ def main() -> None:
     if filename is None:
         return
 
-    filepath = os.path.join(*directories, filename) if directories else filename
+    filepath = (
+        os.path.join(*directories, filename)
+        if directories
+        else filename
+    )
 
     lines = []
     while True:
@@ -45,9 +48,12 @@ def main() -> None:
 
     timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     content = timestamp + "\n"
-    content += "\n".join(
-        f"{number} {line}" for number, line in enumerate(lines, start=1)
-    )
+
+    numbered_lines = [
+        f"{number} {line}"
+        for number, line in enumerate(lines, start=1)
+    ]
+    content += "\n".join(numbered_lines)
     content += "\n"
 
     if os.path.exists(filepath):
